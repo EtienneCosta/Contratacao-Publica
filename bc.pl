@@ -92,6 +92,8 @@ excecao(adjudicataria(Id,Nome,NIF,Morada)):-
 
 % Conhecimento Imperfeito Impreciso
 
+excecao(adjudicataria(15,'ERT - Advogados, Lda',521141825, 'Portugal-Famalicao')).
+excecao(adjudicataria(15,'ERT - Advogados, SA',521141825, 'Portugal-Famalicao')).
 
 % Conhecimento Imperfeito Interdito
 
@@ -130,6 +132,11 @@ excecao(contrato(Id,Ida,IdAda,TC,TP,Desc,V,P,L,D)):-
 %valor do contrato entre 10000 e 15000
 excecao(contrato(8,6,10,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de sistemas informáticos',Valor,90,'Portugal','24-04-2020')):-
     Valor>=10000, Valor =<15000.
+
+%data do contrato ou foi dia 01-03-2020 ou 01-04-2020
+excecao(contrato(9,13,7,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal','01-03-2020')):-
+excecao(contrato(9,13,7,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal','01-04-2020')):-
+
 
 % Conhecimento Imperfeito Interdito
 
