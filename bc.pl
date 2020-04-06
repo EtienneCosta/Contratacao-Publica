@@ -30,10 +30,23 @@ excecao(adjudicante(Id,Nome,NIF,Morada)):-
 
 
 % Conhecimento Imperfeito Impreciso
-excecao(adjudicante(13,'Freguesia de Caldas das Taipas',507186265, 'Portugal-Guimarães')).
-excecao(adjudicante(13,'Freguesia de Caldelas',507186265, 'Portugal-Guimarães')).
+excecao(adjudicante(13,'Freguesia de Caldas das Taipas',507186265,'Portugal-Guimarães')).
+excecao(adjudicante(13,'Freguesia de Caldelas',507186265,'Portugal-Guimarães')).
 
 % Conhecimento Imperfeito Interdito
+
+%nif nunca sera conhecido.
+adjudicataria(14,'Municipio de Vizela',np001,'Portugal-Vizela').
+excecao(adjudicataria(Id,Nome,NIF,Morada)):-
+    adjudicataria(Id,Nome,np001,Morada).
+
+nulo(np001).
++adjudicataria(IdAda,Nome,NIF,Morada):: (findall(N,
+                                            (adjudicataria(14,'Municipio de Vizela',N,'Portugal-Vizela'),
+                                            nao(nulo(N))),
+                                            S),
+                                        length(S,L),
+                                        L==0).
 
 %-------------------------------------------------------------------------------------------------------
 
@@ -77,6 +90,18 @@ excecao(adjudicataria(15,'ERT - Advogados, SA',521141825, 'Portugal-Famalicao'))
 
 % Conhecimento Imperfeito Interdito
 
+%morada nunca sera conhecida.
+adjudicataria(16,'Energias Renovaveis,Lda',551464123, np002).
+excecao(adjudicataria(Id,Nome,NIF,Morada)):-
+    adjudicataria(Id,Nome,NIF,np002).
+
+nulo(np002).
++adjudicataria(IdAda,Nome,NIF,Morada):: (findall(M,
+                                            (adjudicataria(16,'Energias Renovaveis,Lda',551464123,M),
+                                            nao(nulo(M))),
+                                            S),
+                                        length(S,N),
+                                        N==0).
 
 
 %-------------------------------------------------------------------------------------------------------
@@ -116,14 +141,23 @@ excecao(contrato(8,6,10,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestac
     Valor>=10000, Valor =<15000.
 
 %data do contrato ou foi dia 01-03-2020 ou 01-04-2020
-excecao(contrato(9,13,7,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal','01-03-2020')):-
-excecao(contrato(9,13,7,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal','01-04-2020')):-
+excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,03,2020))):-
+excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,04,2020))):-
 
 
 % Conhecimento Imperfeito Interdito
 
+contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20-10-2019)).
+excecao(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)):-
+    contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Dec,np003,P,L,D).
 
-
+nulo(np003).
++contrato(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D))::(findall(Valor,
+                                                                    (contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalacao paineis solares',Valor,30,'Portugal-Lisboa',(20-10-2019)),
+                                                                    nao(nulo(Valor))),
+                                                                    S),
+                                                              length(S,N),
+                                                              N==0).
 
 %-------------------------------------------------------------------------------------------------------
 
