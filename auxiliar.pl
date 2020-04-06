@@ -2,7 +2,6 @@
 %----------------------------- Regras auxiliares ------------------------------%
 %------------------------------------------------------------------------------%
 
-
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 % Extensao do meta-predicado nao: Termo -> {V, F}
 nao(T):-T, 
@@ -33,8 +32,7 @@ evolucao(T):- findall(I,+T::I,Li),
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 %involucao: T -> {V,F}
-involucao(T):- T,
-               findall(I,-T::I,Li),
+involucao(T):- findall(I,-T::I,Li),
                remocao(T),
                teste(Li).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -115,15 +113,105 @@ conjuncao(falso,_,falso).
 conjuncao(_,falso,falso).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Prazo válido
-prazo(X):- X =< 365.
-
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
-% Custo válido
+% Verifica a existência de um elemento na lista.
 
-% custo(X):-  X=< 5000.
+pertence(X,[X|_]).
+pertence(X,[_|Tail]):- pertence(X,Tail).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+data(D, M, A) :-
+  A >= 0,
+    pertence(M, [1, 3, 5, 7, 8, 10, 12]),
+  D >= 1,
+  D =< 31.
+data(D, M, A) :-
+  A >= 0,
+    pertence(M, [4, 6, 9, 11]),
+  D >= 1,
+  D =< 30.
+data(D, 2, A) :-
+  A >= 0,
+    A mod 4 =\= 0, 
+  D >= 1,
+  D =< 28.
+data(D, 2, A) :-
+    A >= 0,
+  A mod 4 =:= 0,
+  D >= 1,
+  D =< 29.
+
+validaData((D,M,A)) :- data(D,M,A).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data):-pertence(TipoProcedimento,['Ajuste direto']),
+                                       !,
+                                       pertence(TipoContrato,['Aquisicao de servicos','Locacao de bens moveis','Contrato de aquisicao']),
+                                       validaValor(Valor),
+                                       validaPrazo(Prazo),
+                                       length(IdsAnuncio,0).
+
+% remover o Concurso publico do procedimento .... 
+procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data):-pertence(TipoProcedimento,['Consulta previa']),
+                                     pertence(TipoContrato,['Aquisicao de servicos','Locacao de bens moveis','Contrato de aquisicao']),
+                                     Valor>0,
+                                     Prazo>0,
+                                     length(IdsAnuncio,0).
+
+procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data):-pertence(TipoProcedimento,['Concurso publico']),
+                                     pertence(TipoContrato,['Aquisicao de servicos','Locacao de bens moveis','Contrato de aquisicao']),
+                                     Valor>0,
+                                     Prazo>0,
+                                     length(IdsAnuncio,1),
+                                     head(IdsAnuncio,I),
+                                     integer(I),
+                                     getDataAnuncio(IdsAnuncio,K),
+                                     afterAnun(Data,K).
+
+
+
+getDataAnuncio(IdsAnuncio,R):-(somatorio(IdsAnuncio,Id),
+                               findall(Data,anuncio(Id,_,_,_,_,_,_,Data),R1),
+                               head(R1,R)).
+
+
+
+
+
+
+afterAnun((D1,M1,A1),(D2,M2,A2)) :- 
+                                    A1 > A2.
+
+afterAnun((D1,M1,A1),(D2,M2,A2)):-  A1 >= A2,
+                                    M1 > M2.
+
+afterAnun((D1,M1,A1),(D2,M2,A2)) :- 
+                                    A1 >= A2,
+                                    M1 >= M2,
+                                    D1 > D2.
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+somatorio([],0).
+somatorio([H|T],R):-somatorio(T,R1),
+                    R is H + R1.
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+validaPrazo(Prazo):- Prazo>0,
+                     Prazo=<365.
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+validaValor(Valor):-  Valor>0,
+                      Valor=< 5000.
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+foreach([]).
+foreach([H|T]):-integer(H),
+                foreach(T).
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+
+pertence2([],[]).
+pertence2([Head|Tail],A):-pertence(Head,A),
+                         pertence2(Tail,A).
 
 
 
