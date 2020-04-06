@@ -40,9 +40,18 @@ adjudicante(8,'Universidade do Minho',502011378,'Portugal-Braga').
 
 % Conhecimento Imperfeito Incerto
 
+adjudicante(11,'Municipio de Guimarães',x001,'Portugal-Guimarães').
+excecao(adjudicante(Id,Nome,NIF,Morada)):-
+    adjudicante(Id,Nome,x001,Morada).
+
+adjudicante(12,'Universidade Aberta',502110660,x002).
+excecao(adjudicante(Id,Nome,NIF,Morada)):-
+    adjudicante(Id,Nome,NIF,x002).
 
 % Conhecimento Imperfeito Impreciso
 
+excecao(adjudicante(13,'Freguesia de Caldas das Taipas',507186265, 'Portugal-Guimarães')).
+excecao(adjudicante(13,'Freguesia de Caldelas',507186265, 'Portugal-Guimarães')).
 
 % Conhecimento Imperfeito Interdito
 
@@ -73,6 +82,13 @@ adjudicataria(11,'BBZ - Publicidade e Marketing, SA',503453838,'Espanha').
 
 % Conhecimento Imperfeito Incerto
 
+adjudicataria(13,'Pichelaria Chaves, Lda',500125512, x003).
+excecao(adjudicataria(Id,Nome,NIF,Morada)):-
+    adjudicataria(Id,Nome,NIF,x003).
+
+adjudicataria(14,'Serralharia Martins,Lda',520426412, x004).
+excecao(adjudicataria(Id,Nome,NIF,Morada)):-
+    adjudicataria(Id,Nome,NIF,x004).
 
 % Conhecimento Imperfeito Impreciso
 
@@ -99,9 +115,21 @@ contrato(4,8,8,'Aquisicao de servicos','Concurso Publico','Instalacao e programa
 
 % Conhecimento Imperfeito Incerto
 
+%valor desconhecido
+contrato(7,11,13,'Aquisicao de servicos','Concurso Publico','Reparação',x005,15,'Portugal','01-02-2020').
+excecao(contrato(Id,Ida,IdAda,TC,TP,Desc,V,P,L,D)):-
+    contrato(Id,Ida,IdAda,TC,TP,Dec,x005,P,L,D).
+
+%data desconhecida. Porem data não é 12-01-2005, pois consta na negacao forte
+contrato(6,8,7,'Aquisicao de servicos','Ajuste direto','Presta de servicos de seguranca',30000,30,'Franca',x006).
+excecao(contrato(Id,Ida,IdAda,TC,TP,Desc,V,P,L,D)):-
+    contrato(Id,Ida,IdAda,TC,TP,Dec,V,P,L,x006).
 
 % Conhecimento Imperfeito Impreciso
 
+%valor do contrato entre 10000 e 15000
+excecao(contrato(8,6,10,'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de sistemas informáticos',Valor,90,'Portugal','24-04-2020')):-
+    Valor>=10000, Valor =<15000.
 
 % Conhecimento Imperfeito Interdito
 
