@@ -147,13 +147,13 @@ excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestac
 
 % Conhecimento Imperfeito Interdito
 
-contrato(10,4,16,[],'Aquisicao de servicos','Concurso Publico','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20-10-2019)).
+contrato(10,4,16,[],'Aquisicao de servicos','Concurso Publico','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20,10,2019)).
 excecao(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)):-
     contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Dec,np003,P,L,D).
 
 nulo(np003).
 +contrato(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D))::(findall(Valor,
-                                                                    (contrato(10,4,16,[],'Aquisicao de servicos','Concurso Publico','Instalacao paineis solares',Valor,30,'Portugal-Lisboa',(20-10-2019)),
+                                                                    (contrato(10,4,16,[],'Aquisicao de servicos','Concurso Publico','Instalacao paineis solares',Valor,30,'Portugal-Lisboa',(20,10,2019)),
                                                                     nao(nulo(Valor))),
                                                                     S),
                                                               length(S,N),

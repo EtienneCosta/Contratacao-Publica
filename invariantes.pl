@@ -132,10 +132,23 @@
 % Regra dos 3 anos válida para todos os contratos ...
 % +contrato(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)::(treeyears(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)).
 
-
-
-
-
++contrato(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,(D,M,A))::(Ano1 is A,
+															Ano2 is A-1,
+															Ano3 is A-2,
+															findall(V,
+															contrato(_,IdAd,IdAda,_,TC,_,Descricao,V,_,_,(_,_,Ano1)),
+															S1),
+															findall(V,
+															contrato(_,IdAd,IdAda,_,TC,_,Descricao,V,_,_,(_,_,Ano2)),
+															S2),
+															findall(V,
+															contrato(_,IdAd,IdAda,_,TC,_,Descricao,V,_,_,(_,_,Ano3)),
+															S3),
+															somaLista(S1,VA1),
+															somaLista(S2,VA2),
+															somaLista(S3,VA3),
+															Soma is VA1 + VA2 + VA3 - Valor,
+															Soma<75000).
 
 +(-contrato(Idc,_,_,_,_,_,_,_,_,_,_))::(integer(Idc),
 									 findall(Idc,-contrato(Idc,_,_,_,_,_,_,_,_,_,_),R),

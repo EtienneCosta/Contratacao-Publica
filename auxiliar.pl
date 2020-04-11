@@ -147,6 +147,10 @@ validaData((D,M,A)) :- data(D,M,A).
 
 getYear((D,M,A),A).
 
+somaLista([], 0).
+somaLista([H|T], X):-
+	somaLista(T,N),
+	X is H+N.
 
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
