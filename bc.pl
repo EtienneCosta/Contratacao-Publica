@@ -42,10 +42,10 @@ excecao(adjudicataria(Id,Nome,NIF,Morada)):-
 
 nulo(np001).
 +adjudicataria(IdAda,Nome,NIF,Morada):: (findall(N,
-                                            (adjudicataria(14,'Municipio de Vizela',N,'Portugal-Vizela'),
-                                            nao(nulo(N))),
+                                        (adjudicataria(14,'Municipio de Vizela',N,'Portugal-Vizela'),
+                                        nao(nulo(N))),
                                             S),
-                                        length(S,L),
+                                        length(S,0),
                                         L==0).
 
 %-------------------------------------------------------------------------------------------------------
@@ -97,9 +97,8 @@ excecao(adjudicataria(Id,Nome,NIF,Morada)):-
 
 nulo(np002).
 +adjudicataria(IdAda,Nome,NIF,Morada):: (findall(M,
-                                            (adjudicataria(16,'Energias Renovaveis,Lda',551464123,M),
-                                            nao(nulo(M))),
-                                            S),
+                                        (adjudicataria(16,'Energias Renovaveis,Lda',551464123,M),
+                                        nao(nulo(M))),S),
                                         length(S,N),
                                         N==0).
 
@@ -115,7 +114,8 @@ nulo(np002).
 contrato(1,1,1,[1],'Locacao de bens moveis','Concurso publico','Arranjar uma Descricaoooo melhor',632502.50,365,'Portugal',(26,07,2019)).
 contrato(2,1,2,[],'Aquisicao de servicos','Ajuste direto','Prestacao de servicos de assessoria tecnica, em regime de avenca, na área de Geologia',3600,200,'Portugal',(30,08,2018)).
 contrato(3,2,2,[],'Aquisicao de servicos','Ajuste direto','Aquisicao de servicos de elaboracao de manual',1250,180,'Portugal',(06,02,2020)).
-contrato(4,8,8,[8],'Aquisicao de servicos','Concurso publico','Instalacao e programacao de controlo de acessos RACS5',150000,29,'Portugal',(03,12,2019)).
+contrato(4,8,8,[2],'Aquisicao de servicos','Concurso publico','Instalacao e programacao de controlo de acessos RACS5',37500,29,'Portugal',(03,12,2019)).
+
 
 % Conhecimento Negativo
 
@@ -141,23 +141,22 @@ excecao(contrato(8,6,10,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestac
     Valor>=10000, Valor =<15000.
 
 %data do contrato ou foi dia 01-03-2020 ou 01-04-2020
-excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,03,2020))):-
-excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,04,2020))):-
+excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,03,2020))).
+excecao(contrato(9,13,7,[],'Aquisicao de servicos', 'Concurso Publico', 'Prestacao de servicos de seguranca',3000,60,'Portugal',(01,04,2020))).
 
 
 % Conhecimento Imperfeito Interdito
 
-contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20-10-2019)).
+contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20,10,2019)).
 excecao(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)):-
     contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Dec,np003,P,L,D).
 
 nulo(np003).
 +contrato(contrato(Id,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D))::(findall(Valor,
-                                                                    (contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalacao paineis solares',Valor,30,'Portugal-Lisboa',(20-10-2019)),
-                                                                    nao(nulo(Valor))),
-                                                                    S),
-                                                              length(S,N),
-                                                              N==0).
+                                                              (contrato(10,4,16,[],'Aquisicao de servicos','Ajuste direto','Instalacao paineis solares',Valor,30,'Portugal-Lisboa',(20,10,2019)),
+                                                               nao(nulo(Valor))),S),
+                                                               length(S,N),
+                                                               N==0).
 
 %-------------------------------------------------------------------------------------------------------
 
