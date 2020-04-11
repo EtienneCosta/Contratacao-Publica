@@ -145,6 +145,10 @@ data(D, 2, A) :-
 
 validaData((D,M,A)) :- data(D,M,A).
 
+getYear((D,M,A),A).
+
+
+
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data):-pertence(TipoProcedimento,['Ajuste direto']),
                                        !,
@@ -169,6 +173,28 @@ procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data
                                      integer(I),
                                      getDataAnuncio(IdsAnuncio,K),
                                      afterAnun(Data,K).
+
+/*
+treeyears(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data):- (findall((V,(D)),contrato(_,IdAd,IdAda,_,TC,_,Descricao,V,_,_,D),R),
+                                                           fst(R,Values),
+                                                           somatorio(Values,R1),
+                                                           R2 is R1-Valor,
+                                                           R2> 75000,
+                                                           !,
+                                                           getYear(Data,A1),
+                                                           snd(R,Dates),
+                                                           yearAux(Dates,A1)).
+
+
+treeyears(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data).
+
+*/
+
+
+
+
+
+
 
 
 
@@ -213,5 +239,20 @@ pertence2([],[]).
 pertence2([Head|Tail],A):-pertence(Head,A),
                          pertence2(Tail,A).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+fst([],[]).
+fst([(A,_)|T],[A|R]):-fst(T,R).
+
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+snd([],[]).
+snd([(_,B)|T],[B|R]):-snd(T,R).
+
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
+
+yearAux([],_).
+yearAux([(D,M,A)|T],Year):- Year-A > 2,
+                            yearAux(T,Year). 
 
 

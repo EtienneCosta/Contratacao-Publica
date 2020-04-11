@@ -126,6 +126,17 @@
 
 
 
+% contrato: #IdC ,#IdAd, #IdAda,[#IdAnuncio], Tipo de Contrato, Tipo de Procedimento , Descrição , Valor , Prazo , Local ,Data ↝ { 𝕍,𝔽,𝔻 }
+
+
+% Regra dos 3 anos válida para todos os contratos ...
+% +contrato(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)::(treeyears(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)).
+
+
+
+
+
+
 +(-contrato(Idc,_,_,_,_,_,_,_,_,_,_))::(integer(Idc),
 									 findall(Idc,-contrato(Idc,_,_,_,_,_,_,_,_,_,_),R),
 								     length(R,1)).
