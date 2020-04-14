@@ -2,6 +2,7 @@
 :- set_prolog_flag( discontiguous_warnings,off ).
 :- set_prolog_flag( single_var_warnings,off ).
 :- set_prolog_flag(unknown,fail).
+:- use_module(library(lists)).
 
 
 :- op( 900, xfy,'::').
@@ -13,6 +14,7 @@
 :- dynamic (contrato/11).
 :- dynamic (anuncio/8).
 :- dynamic (concorrente/2).
+:- dynamic (nulo/1).
 
 
 :-include('bc.pl').

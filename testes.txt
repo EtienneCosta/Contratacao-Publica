@@ -1,0 +1,178 @@
+%------------------------------------------------------------------------------%
+%-----------------------------    Testes    -----------------------------------%
+%                                                							   
+%------------------------------------------------------------------------------%
+
+demo(adjudicante(1,'ISLAB',1,'Portugal-Braga'),R).
+R:falso.
+
+
+registarAdjudicante(a,'ISLAB',1,'Portugal-Braga').
+R:no.
+
+registarAdjudicante(1,'ISLAB',1,'Portugal-Braga').
+R:no.
+
+registarAdjudicante(100,'Universidade do Minho',1,'Portugal-Braga').
+R:no.
+
+registarAdjudicante(100,'ISLAB',1,'Portugal-Braga').
+R:yes.
+
+demo(adjudicante(100,'ISLAB',1,'Portugal-Braga'),R).
+R:verdadeiro.
+
+removerAdjudicante(1).
+R:no.
+
+removerAdjudicante(100).
+R:yes.
+
+demo(adjudicante(100,'ISLAB',1,'Portugal-Braga'),R).
+R:falso.
+%------------------------------------------------------------------------------%
+
+
+--- Ajuste direto ---
+
+registarContrato(15,90,91,[],'Aquisicao de servicos','Ajuste direto','Aquisicao de servico de manutencao do sicstus',1200,15,'Portugal',(28,03,2020)).
+R:no.
+
+registarContrato(15,4,4,[1],'Aquisicao de servicos','Ajuste direto','Aquisicao de servico de manutencao do sicstus',1200,15,'Portugal',(28,03,2020)).
+R:no.
+
+registarContrato(15,4,4,[],'Aquisicao de servicos','Ajuste direto','Aquisicao de servico de manutencao do sicstus',12000,15,'Portugal',(28,03,2020)).
+R:no.
+
+registarContrato(15,4,4,[],'Aquisicao de servicos','Ajuste direto','Aquisicao de servico de manutencao do sicstus',1200,415,'Portugal',(28,03,2020)).
+R:no.
+
+registarContrato(15,4,4,[],'Aquisicao de servicos','Ajuste direto','Aquisicao de servico de manutencao do sicstus',1200,15,'Portugal',(28,03,2020)).
+R:yes.
+%------------------------------------------------------------------------------%
+
+---Regra dos 3 anos válida para todos os contratos---
+
+registarContrato(20,8,8,[4],'Aquisicao de servicos','Concurso publico','Instalacao e programacao de controlo de acessos RACS5',37500,29,'Portugal',(01,01,2020)).
+R:no.
+
+registarAnuncio(4,8,'Universidade do Minho','Instalacao e programacao de controlo de acessos RACS5','Aquisicao de servicos',37500,29,(22,12,2019)).
+R:yes.
+
+registarContrato(20,8,8,[4],'Aquisicao de servicos','Concurso publico','Instalacao e programacao de controlo de acessos RACS5',37500,29,'Portugal',(01,01,2020)).
+R:yes.
+
+registarContrato(21,8,8,[],'Aquisicao de servicos','Ajuste direto','Instalacao e programacao de controlo de acessos RACS5',5000,29,'Portugal',(01,01,2021)).
+R:no.
+
+registarContrato(21,8,8,[],'Aquisicao de servicos','Ajuste direto','Instalacao e programacao de controlo de acessos RACS5',5000,29,'Portugal',(01,01,2025)).
+R:yes.
+
+%------------------------------------------------------------------------------%
+
+
+%------------------------------------------------------------------------------%
+Inserção de conhecimento Negativo.
+%------------------------------------------------------------------------------%
+
+
+
+
+
+%------------------------------------------------------------------------------%
+Inserção e Correção de conhecimento imperfeito do tipo incerto .
+%------------------------------------------------------------------------------%
+
+demo(adjudicante(100,'Haskell',12345,'Portugal'),R).
+R:falso.
+
+evolucaoNomeIncerto(adjudicante(100,x99,12345,'Portugal')).
+R: yes.
+
+
+demo(adjudicante(100,'Haskell',12345,'Portugal'),R).
+R:desconhecido.
+
+evolucaoNomePerfeito(adjudicante(100,'Haskell',12345,'Portugal')).
+R: yes.
+
+
+demo(adjudicante(100,'Haskell',12345,'Portugal'),R).
+R: verdadeiro.
+
+
+demo(adjudicante(100,'C#',12345,'Portugal'),R).
+R: falso.
+
+
+
+
+%------------------------------------------------------------------------------%
+Inserção e Correção de conhecimento imperfeito do tipo impreciso.
+%------------------------------------------------------------------------------%
+
+
+demo(adjudicante(20,'PROLOG',54321,'Belgica'),R).
+R: falso.
+
+
+evolucaoImpreciso(adjudicante(20,'PROLOG',54321,'Belgica')).
+R: yes.
+
+evolucaoImpreciso(adjudicante(20,'HASKELL',54321,'Belgica')).
+R: yes.
+
+evolucaoImpreciso(adjudicante(20,'HASKELL',54321,'Belgica')).
+R: no.
+
+demo(adjudicante(20,'PROLOG',54321,'Belgica'),R).
+R: desconhecido.
+
+evolucaoPrecoImpreciso(anuncio(4,7,'Direcao Geral da Saude','Prestacao de servicos de seguranca','Aquisicao de servicos',Preco,60,(01,01,2020)),10,50).
+R: yes.
+
+demo(anuncio(4,7,'Direcao Geral da Saude','Prestacao de servicos de seguranca','Aquisicao de servicos',25,60,(01,01,2020)),R).
+R: desconhecido.
+
+
+involucaoPrecoImpreciso(anuncio(4,7,'Direcao Geral da Saude','Prestacao de servicos de seguranca','Aquisicao de servicos',Preco,60,(01,01,2020)),10,50).
+R: yes.
+
+demo(anuncio(4,7,'Direcao Geral da Saude','Prestacao de servicos de seguranca','Aquisicao de servicos',25,60,(01,01,2020)),R).
+R: falso.
+
+
+
+%------------------------------------------------------------------------------%
+Inserção  de conhecimento imperfeito do tipo interdito.
+%------------------------------------------------------------------------------%
+
+demo(adjudicataria(100,'Francis',12345,'Paris'),R).
+R: falso.
+
+evolucaoNomeInterdito(adjudicataria(100,np100,12345,'Paris')).
+R: yes.
+
+
+demo(adjudicataria(100,'Francis',12345,'Paris'),R).
+R: desconhecido.
+
+--Não deve ser assim..
+evolucao(adjudicataria(100,'Francis',12345,'Paris')).
+R: no.
+
+involucaoNomeInterdito(adjudicataria(100,np100,12345,'Paris')).
+R: yes.
+
+demo(adjudicataria(100,'Francis',12345,'Paris'),R).
+R: falso.
+
+
+
+
+
+%------------------------------------------------------------------------------%
+					Extras
+%------------------------------------------------------------------------------%
+
+

@@ -22,7 +22,7 @@
 
 % Invariante que garante que adjudicantes com ids  diferentes têm diferente informação .
 
-+adjudicante(IdAd,Nome,NIF,Morada)::((findall((Nome,NIF,Morada),adjudicante(_,Nome,NIF,Morada),R),
++adjudicante(IdAd,Nome,NIF,Morada)::((findall(Nome,adjudicante(_,Nome,_,_),R),
 									 length(R,1))).
 
 
@@ -43,6 +43,7 @@
 
 +(-adjudicante(IdAd,Nome,NIF,Morada))::((findall((Nome,NIF,Morada),-adjudicante(_,Nome,NIF,Morada),R),
 									 length(R,1))).
+
 
 -adjudicante(IdAd,_,_,_)::(findall(IdAd,adjudicante(IdAd,_,_,_),R),
 						   length(R,0)).
@@ -125,13 +126,6 @@
 +contrato(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data)::procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data).
 
 
-
-% contrato: #IdC ,#IdAd, #IdAda,[#IdAnuncio], Tipo de Contrato, Tipo de Procedimento , Descrição , Valor , Prazo , Local ,Data ↝ { 𝕍,𝔽,𝔻 }
-
-
-% Regra dos 3 anos válida para todos os contratos ...
-% +contrato(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)::(treeyears(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,Data)).
-
 +contrato(_,IdAd,IdAda,_,TC,_,Descricao,Valor,_,_,(D,M,A))::(Ano1 is A,
 															Ano2 is A-1,
 															Ano3 is A-2,
@@ -144,11 +138,15 @@
 															findall(V,
 															contrato(_,IdAd,IdAda,_,TC,_,Descricao,V,_,_,(_,_,Ano3)),
 															S3),
-															somaLista(S1,VA1),
-															somaLista(S2,VA2),
-															somaLista(S3,VA3),
+															somatorio(S1,VA1),
+															somatorio(S2,VA2),
+															somatorio(S3,VA3),
 															Soma is VA1 + VA2 + VA3 - Valor,
 															Soma<75000).
+
+
+
+
 
 +(-contrato(Idc,_,_,_,_,_,_,_,_,_,_))::(integer(Idc),
 									 findall(Idc,-contrato(Idc,_,_,_,_,_,_,_,_,_,_),R),
@@ -171,6 +169,18 @@
 
 %Remocao de contrato 
 
+
+-contrato(Idc,_,_,IdsAnuncio,_,_,_,_,_,_,_)::(findall(Idc,contrato(Idc,_,_,_,_,_,_,_,_,_,_),R),
+											  length(R,0)).
+
+
+-contrato(Idc,_,_,IdsAnuncio,_,_,_,_,_,_,_)::(findall(IdsAnuncio,contrato(Idc,_,_,IdsAnuncio,_,_,_,_,_,_,_),R),
+											  head(R,R1),
+											  length(R1,0)).
+
+
+
+
 %-------------------------------- Invariantes Estruturais e Referenciais: Anúncio  ---------------------------------%
 
 % anúncio: #IdAnuncio, #IdAd, Nome,Descrição,Tipo de Contrato,Preço, Prazo, Data.
@@ -187,12 +197,14 @@
 									   Prazo>0,
 								       validaData(Data),
                                        pertence(TipoContrato,['Aquisicao de servicos','Locacao de bens moveis','Contrato de aquisicao'])).
-
-
-
 %Remocao de anuncio
 
 
+-anuncio(IdAnuncio,IdAd,Nome,_,_,_,_,_)::(findall(IdAnuncio,anuncio(IdAnuncio,IdAd,Nome,_,_,_,_,_),R),
+										  length(R,0)).
+ 
+-anuncio(IdAnuncio,IdAd,Nome,_,_,_,_,_)::(findall(IdAnuncio,concorrente(IdAnuncio,_),R),
+											  length(R,0)).
 
 %-------------------------------- Invariantes Estruturais e Referenciais: Concorrente  ---------------------------------%
 
@@ -203,6 +215,24 @@
 								foreach(IdsAd),
 								findall(Id,adjudicante(Id,_,_,_),L),
 								pertence2(IdsAd,L)).
+
+-concorrente(IdAnuncio,_)::(findall(IdAnuncio,concorrente(IdAnuncio,_),R),
+							length(R,0)).
+
+
+
+%-------------------------------- Invariantes Estruturais e Referenciais: Conhecimento Imperfeito  ---------------------------------%
+
+
+% Invariante que garante que não existem excecoes repetidas
+
++(excecao(T)):: (findall(T,excecao(T),R),
+                 length(R,1)).
+
+
+
+
+
 
 
 
