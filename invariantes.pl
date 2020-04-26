@@ -10,41 +10,24 @@
 % adjudicante: #IdAd, Nome, NIF , Morada 
 
 % Invariante que garante que o id de cada Adjudicante é único para conhecimento positivo.
-
 +adjudicante(IdAd,_,_,_)::(integer(IdAd),
 						   findall(IdAd,adjudicante(IdAd,_,_,_),R),
 						   length(R,1)).
 
 % Invariante que garante que o NIF de cada Adjudicante é único para conhecimento positivo.
-
 +adjudicante(_,_,NIF,_)::(findall(NIF,adjudicante(_,_,NIF,_),R),
 									length(R,1)).
 
 % Invariante que garante que adjudicantes com ids  diferentes têm diferente informação .
-
 +adjudicante(IdAd,Nome,NIF,Morada)::((findall(Nome,adjudicante(_,Nome,_,_),R),
 									 length(R,1))).
 
-
 % Invariante que garante que o id de cada Adjudicante é único para conhecimento negativo.
-
-
 +(-adjudicante(IdAd,_,_,_))::(integer(IdAd),
-						   findall(IdAd,-adjudicante(IdAd,_,_,_),R),
-						   length(R,1)).
-
-% Invariante que garante que o NIF de cada Adjudicante é único para conhecimento negativo.
-
-+(-adjudicante(_,_,NIF,_))::(findall(NIF,-adjudicante(_,_,NIF,_),R),
-									length(R,1)).
-
+						   findall(IdAd,(-adjudicante(IdAd,_,_,_)),R),
+						   length(R,2)).
 
 % Invariante que garante que adjudicantes com ids  diferentes têm diferente informação.
-
-+(-adjudicante(IdAd,Nome,NIF,Morada))::((findall((Nome,NIF,Morada),-adjudicante(_,Nome,NIF,Morada),R),
-									 length(R,1))).
-
-
 -adjudicante(IdAd,_,_,_)::(findall(IdAd,adjudicante(IdAd,_,_,_),R),
 						   length(R,0)).
 
@@ -73,25 +56,6 @@
 
 +adjudicataria(IdAda,Nome,NIF,Morada)::((findall((Nome,NIF,Morada),adjudicataria(_,Nome,NIF,Morada),R),
 									     length(R,1))).
-
-
-% Invariante que garante que o id de cada Adjudicante é único para conhecimento negativo.
-
-
-+(-adjudicataria(IdAda,_,_,_))::(integer(IdAda),
-						         findall(IdAda,-adjudicataria(IdAda,_,_,_),R),
-						         length(R,1)).
-
-% Invariante que garante que o NIF de cada Adjudicante é único para conhecimento negativo.
-
-+(-adjudicataria(_,_,NIF,_))::(findall(NIF,-adjudicataria(_,_,NIF,_),R),
-									length(R,1)).
-
-
-% Invariante que garante que adjudicantes com ids  diferentes têm diferente informação.
-
-+(-adjudicataria(IdAda,Nome,NIF,Morada))::((findall((Nome,NIF,Morada),-adjudicataria(_,Nome,NIF,Morada),R),
-									 length(R,1))).
 
 
 -adjudicataria(IdAda,_,_,_)::(findall(IdAda,adjudicataria(IdAda,_,_,_),R),
@@ -147,26 +111,6 @@
 
 
 
-
-+(-contrato(Idc,_,_,_,_,_,_,_,_,_,_))::(integer(Idc),
-									 findall(Idc,-contrato(Idc,_,_,_,_,_,_,_,_,_,_),R),
-								     length(R,1)).
-																
-
-+(-contrato(_,IdAd,IdAda,_,_,_,_,_,_,_,_))::(integer(IdAd),
-										     integer(IdAda),
-										  	 findall(IdAd,adjudicante(IdAd,_,_,_),R1),
-										     findall(IdAda,adjudicataria(IdAda,_,_,_),R2),
-								    	     length(R1,1),
-								    	     length(R2,1)).														
-
-
-+(-contrato(_,_,_,_,_,_,_,_,_,_,Data))::(validaData(Data)).
-
-
-+(-contrato(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data))::procedimento(_,_,_,IdsAnuncio,TipoContrato,TipoProcedimento,_,Valor,Prazo,_,Data).
-
-
 %Remocao de contrato 
 
 
@@ -208,7 +152,7 @@
 
 %-------------------------------- Invariantes Estruturais e Referenciais: Concorrente  ---------------------------------%
 
-% concorrente: #IdAnuncio, [#IdAd].
+% concorrente: #IdAnuncio, [#IdsAd].
 
 +concorrente(IdAnuncio,IdsAd)::(findall(IdAnuncio,concorrente(IdAnuncio,_),R),
 								length(R,1),

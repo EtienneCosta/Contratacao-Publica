@@ -41,7 +41,7 @@ evolucaoNeg(T):- findall(I,+(-T)::I,Li),
                  teste(Li).
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 involucaoNeg(T):- findall(I,+(-T)::I,Li),
-                  retract(-T), 
+                  remocao(-T), 
                   teste(Li).
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
@@ -215,7 +215,17 @@ pertence2([Head|Tail],A):-pertence(Head,A),
 
 %--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+foreach2([],[]).
+foreach2([Id|T],[X|Xs]):-adjudicataria(Id,X,_,_),
+                         foreach2(T,Xs). 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
 
+zip([],[],[]).
+zip([X|XS],[Y|YS], [(X,Y)|Z]) :- zip(XS,YS,Z).
 
+%--------------------------------- - - - - - - - - - -  -  -  -  -   -
 
+concatenar([],L2,L2).
+concatenar(L1,[],L1).
+concatenar([Head|Tail],X,[Head|R]):-concatenar(Tail,X,R).

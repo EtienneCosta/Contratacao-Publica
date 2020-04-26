@@ -50,7 +50,38 @@
 
 
 
+%------------------------------------------------------------------------------%
+% Lista todos os adjudicatários que participaram num determinado concurso.
 
+
+getConcorrentes(IdC,R):-findall(IdsAnuncio,contrato(IdC,_,_,IdsAnuncio,_,'Concurso publico',_,_,_,_,_),S),
+					   head(S,X),
+					   head(X,IdAnun),
+					   findall(IdsAd,concorrente(IdAnun,IdsAd),S1),
+					   head(S1,S2),
+					   foreach2(S2,R).
+
+
+
+% Total gasto por um adjudicante 
+
+totalGasto(IdAd,R):-findall(Valor,contrato(_,IdAd,_,_,_,_,_,Valor,_,_,_),S),
+					findall(Nome,adjudicante(IdAd,Nome,_,_),N),
+					somatorio(S,T),
+					concatenar([T],[],Total),
+					zip(N,Total,R1),
+					head(R1,R).
+
+
+
+% Total recebido por uma entidade  adjudicatária.
+
+totalRecebido(IdAdA,R):-findall(Valor,contrato(_,_,IdAdA,_,_,_,_,Valor,_,_,_),S),
+						findall(Nome,adjudicataria(IdAdA,Nome,_,_),N),
+						somatorio(S,T),
+						concatenar([T],[],Total),
+						zip(N,Total,R1),
+						head(R1,R).
 
 
 

@@ -75,8 +75,10 @@ R:yes.
 Inserção de conhecimento Negativo.
 %------------------------------------------------------------------------------%
 
+evolucaoNeg(adjudicante(90,'Sonalgol',000111222,'Angola')).
+R:yes.
 
-
+listing.
 
 
 %------------------------------------------------------------------------------%
@@ -175,4 +177,13 @@ R: falso.
 					Extras
 %------------------------------------------------------------------------------%
 
+getConcorrentes(1,R).
+R = ['EVCE Power, Lda','X LIGHT, LDA','SDL Global Solutions LTD','BBZ - Publicidade e Marketing, SA'] .
 
+
+totalGasto(1,R).
+R = ('Direcao Regional da Energia',636102.5) .
+
+
+|totalRecebido(1,R).
+R = ('EVCE Power, Lda',632502.5)  .

@@ -132,7 +132,7 @@ excecao(contrato(IdC,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)):-contrato(IdC,Ida,Id
 
 % Conhecimento Imperfeito Impreciso
 
-%valor do contrato entre 10000 e 15000
+%valor do contrato entre 100 e 4000
 excecao(contrato(9,6,10,[],'Aquisicao de servicos', 'Ajuste direto', 'Prestacao de servicos de sistemas informaticos',Valor,90,'Portugal',(24,04,2020))):-
     Valor>=100, Valor =<4000.
 
@@ -148,7 +148,7 @@ nulo(np003).
 excecao(contrato(IdC,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)):-
     contrato(IdC,Ida,IdAda,IdsAnun,TC,TP,Dec,np003,P,L,D).
 
-contrato(11,4,2,[],'Aquisicao de servicos','Ajuste direto','Instalação paineis solares',np003,30,'Portugal-Lisboa',(20,10,2019)).
+contrato(11,4,2,[],'Aquisicao de servicos','Ajuste direto','Instalacao paineis solares',np003,30,'Portugal-Lisboa',(20,10,2019)).
 
 
 +contrato(IdC,Ida,IdAda,IdsAnun,TC,TP,Desc,V,P,L,D)::(findall(Valor,
@@ -157,7 +157,6 @@ contrato(11,4,2,[],'Aquisicao de servicos','Ajuste direto','Instalação paineis
                                                                length(S,0)).
 
 %-------------------------------------------------------------------------------------------------------
-
 % Conhecimento Positivo
 
 % anúncio: #IdAnuncio, #IdAd, Nome,Descrição,Tipo de Contrato,Preço, Prazo, Data.
@@ -170,7 +169,7 @@ anuncio(3,7,'Direcao Geral da Saude','Prestacao de servicos de seguranca','Aquis
 
 % Conhecimento Positivo
 
-% concorrente: #IdAnuncio, [#IdAd].
+% concorrente: #IdAnuncio, [#IdAds].
 
 concorrente(1,[1,5,10,11]).
 concorrente(2,[2,4,6,8]).

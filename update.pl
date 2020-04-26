@@ -69,7 +69,6 @@ removerAnuncio(IdAnuncio):- involucao(anuncio(IdAnuncio,_,_,_,_,_,_,_)).
 %------------------------------------------------------------------------------%
 
 % Insere conhecimento imperfeito incerto: Adjudicante com nome desconhecido.
-
 evolucaoNomeIncerto(adjudicante(IdAd,NomeIncerto,NIF,Morada)) :-
         evolucao(adjudicante(IdAd,NomeIncerto,NIF,Morada)),
         insercao(((excecao(adjudicante(I,No,Ni,M))) :- adjudicante(I,NomeIncerto,Ni,M))).
@@ -77,7 +76,7 @@ evolucaoNomeIncerto(adjudicante(IdAd,NomeIncerto,NIF,Morada)) :-
 
 evolucaoNifIncerto(adjudicante(IdAd,Nome,NIFIncerto,Morada)) :-
         evolucao(adjudicante(IdAd,Nome,NIFIncerto,Morada)),
-        assert(((excecao(adjudicante(I,No,Ni,M))) :- adjudicante(I,No,NIFIncerto,M))).
+        insercao(((excecao(adjudicante(I,No,Ni,M))) :- adjudicante(I,No,NIFIncerto,M))).
 
 
 %------------------------------------------------------------------------------%
@@ -94,6 +93,8 @@ evolucaoImpreciso(T):- findall(I,+(excecao(T))::I, Lint),
 evolucaoPrecoImpreciso(anuncio(IdAnuncio,IdAd,Nome,Descricao,TipoContrato,PrecoImpreciso,Prazo,Data),LimiteInf,LimiteSup):-
 			insercao((excecao(anuncio(IdAnuncio,IdAd,Nome,Descricao,TipoContrato,PrecoImpreciso,Prazo,Data)):-
 						PrecoImpreciso >=LimiteInf , PrecoImpreciso =< LimiteSup)).
+                        
+                    
 
 
 
@@ -107,7 +108,7 @@ evolucaoNomeInterdito(adjudicataria(IdAda,NomeInterdito,NIF,Morada)) :-
     evolucao(adjudicataria(IdAda,NomeInterdito,NIF,Morada)),
     insercao((excecao(adjudicataria(I,No,Ni,M)) :-
                 adjudicataria(I,NomeInterdito,Ni,M))),
-    insercao((nulo(NomeInterdito))).
+    insercao((nulo(NomeInterdito))),
     insercao(+adjudicataria(ID,NO,NI,MO)::(findall(Nome,(adjudicataria(IdAda,Nome,NIF,Morada),nao(nulo(Nome))),S),
                                   length(S,0))).
 
@@ -142,19 +143,19 @@ evolucaoNifPerfeito(adjudicante(IdAd,Nome,NIF,Morada)) :-
 
 involucaoNomeIncerto(adjudicante(IdAd,NomeIncerto,NIF,Morada)) :-
     involucao(adjudicante(IdAd,NomeIncerto,NIF,Morada)),
-    retract((excecao(adjudicante(I,No,Ni,M)):-
+    remocao((excecao(adjudicante(I,No,Ni,M)):-
                      adjudicante(I,NomeIncerto,Ni,M))).
 
 involucaoNomeIncerto(adjudicataria(IdAd,NomeIncerto,NIF,Morada)) :-
     involucao(adjudicataria(IdAd,NomeIncerto,NIF,Morada)),
-    retract((excecao(adjudicataria(I,No,Ni,M)):-
+    remocao((excecao(adjudicataria(I,No,Ni,M)):-
                      adjudicataria(I,NomeIncerto,Ni,M))).
 
 
 
 involucaoNifIncerto(adjudicante(IdAd,Nome,NIFIncerto,Morada)) :-
     involucao(adjudicante(IdAd,Nome,NIFIncerto,Morada)),
-    retract((excecao(adjudicante(I,No,Ni,M)):-
+    remocao((excecao(adjudicante(I,No,Ni,M)):-
                      adjudicante(I,No,NIFIncerto,M))).
 
 
@@ -190,11 +191,6 @@ involucaoPrecoImpreciso(anuncio(IdAnuncio,IdAd,Nome,Descricao,TipoContrato,Preco
                 adjudicataria(IdAda,NomeInterdito,NIF,Morada))),
     remocao(nulo(NomeInterdito)).
 
-
-
-%------------------------------------------------------------------------------%
-%-------------------------------- Regras --------------------------------------%
-%------------------------------------------------------------------------------%
 
 
 
